@@ -1,2 +1,2 @@
-*.iso
+build/
 *.o
