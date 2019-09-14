@@ -1,0 +1,7 @@
+dist: trusty
+sudo: false
+language: cpp
+
+script:
+  - export PATH=$PATH:`pwd`/toolchain
+  - make
