@@ -25,8 +25,6 @@ all:
 	$(CXX) $(CXXFLAGS) -c $(SRC_CPP)
 	@# Link all .o into ELF executable
 	make HeyOS
-	@# Prepare iso
-	make iso
 
 HeyOS:
 	$(LD) $(LDFLAGS) -o $(BUILD)/$(OS_NAME) $(OBJECTS)
