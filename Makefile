@@ -6,7 +6,7 @@ AS = nasm
 ASFLAGS = -f elf32
 
 LD = ld
-LDFLAGS = -T linker.ld -melf_i386
+LDFLAGS = -T scripts/linker.ld -melf_i386
 
 
 BUILD = build
