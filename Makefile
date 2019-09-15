@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin\
+CXXFLAGS = -std=c++11 -m32 -Iinclude -fno-use-cxa-atexit -nostdlib -fno-builtin\
 	   -fno-rtti -fno-exceptions -fno-leading-underscore -Wno-write-strings
 
 AS = nasm
