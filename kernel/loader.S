@@ -35,6 +35,9 @@ stack_top:
 ; Call start_kernel()
 section .text
   extern start_kernel              ; start_kernel() is declared in main.cpp
+  global kernel_loader
+
+kernel_loader:
   mov esp, stack_top               ; Point esp to the top of the stack
   push ebx                         ; start_kernel()'s first param: multiboot structure
   call start_kernel                ; Continue executing our kernel in main.cpp
