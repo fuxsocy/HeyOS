@@ -8,8 +8,8 @@
 #define X86_RING_MAX 3
 
 struct Idtr {
-  heyos::uint32_t limit;
-  heyos::uint16_t base;
+  heyos::uint16_t size;
+  heyos::uint32_t base;
 } idtr;
 
 // Declared in util.S
@@ -30,7 +30,7 @@ Idt::Idt(Gdt* gdt) {
   gates_[0x21] = GateDescriptor(&ignore_irq, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
 
   // Load IDT into CPU
-  idtr.limit = IDT_ENTRIES_COUNT * sizeof(GateDescriptor) - 1;
+  idtr.size = IDT_ENTRIES_COUNT * sizeof(GateDescriptor) - 1;
   idtr.base = (uint32_t) this;
   load_idt();
 }
