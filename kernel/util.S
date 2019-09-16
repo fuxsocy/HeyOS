@@ -5,7 +5,7 @@ KERN_CODE_SEGMENT equ 0x10
 KERN_DATA_SEGMENT equ 0x18
 
 
-section .text
+[section .text]
   
 ; Loads GDT
 ; To complete the process of loading a new GDT, the segment registers
