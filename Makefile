@@ -20,7 +20,7 @@ all:
 	@# Perform out-of-place build
 	mkdir -p $(BUILD)
 	@# Assemble each .S into .o
-	$(foreach o, $(SRC_ASM), $(AS) $(ASFLAGS) $(o))
+	$(foreach o, $(SRC_ASM), $(AS) $(ASFLAGS) $(o);)
 	@# Compile each .cc into .o
 	$(CXX) $(CXXFLAGS) -c $(SRC_CPP)
 	@# Link all .o into ELF executable

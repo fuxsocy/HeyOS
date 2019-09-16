@@ -28,16 +28,16 @@ class Gdt {
   Gdt();
   ~Gdt();
 
-  uint16_t code_segment_selector() const;
-  uint16_t data_segment_selector() const;
+  // A segment selector is an offset to GDT.
+  // The size of GDT is 65536 (2^16) bytes in total.
+  uint16_t kernel_code_segment_selector() const;
+  uint16_t kernel_data_segment_selector() const;
 
  private:
   class SegmentDescriptor {
    public:
-    SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t type);
-    ~SegmentDescriptor();
-    uint32_t base() const;
-    uint32_t limit() const;
+    SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t access);
+    ~SegmentDescriptor() = default;
 
    private:
     uint16_t limit_lo_;
@@ -51,8 +51,8 @@ class Gdt {
 
   SegmentDescriptor null_segment_descriptor_;
   SegmentDescriptor unused_segment_descriptor_;
-  SegmentDescriptor code_segment_descriptor_;
-  SegmentDescriptor data_segment_descriptor_;
+  SegmentDescriptor kernel_code_segment_descriptor_;
+  SegmentDescriptor kernel_data_segment_descriptor_;
 };
 
 }  // namespace heyos
