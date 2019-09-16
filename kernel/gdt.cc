@@ -2,8 +2,8 @@
 #include <gdt.h>
 
 struct Gdtr {
+  heyos::uint16_t size;
   heyos::uint32_t base;
-  heyos::uint16_t limit;
 } gdtr;
 
 extern "C" void load_gdt(); // declared in util.S
@@ -16,8 +16,8 @@ Gdt::Gdt()
       unused_segment_descriptor_(0, 0, 0),
       kernel_code_segment_descriptor_(0, 0xfffff, 0x9a),
       kernel_data_segment_descriptor_(0, 0xfffff, 0x92) {
+  gdtr.size = sizeof(Gdt) - 1;
   gdtr.base = (uint32_t) this;
-  gdtr.limit = sizeof(Gdt) - 1;
   load_gdt();
 }
 
