@@ -6,12 +6,13 @@ KERN_DATA_SEGMENT equ 0x18
 
 
 section .text
-  global load_gdt
-  extern gdtr;
-
+  
 ; Loads GDT
 ; To complete the process of loading a new GDT, the segment registers
 ; need to be reloaded. The CS register must be loaded using a far jump.
+[global load_gdt]
+[extern gdtr]
+
 load_gdt:
   lgdt [gdtr]
   jmp KERN_CODE_SEGMENT:_complete_flush
@@ -24,3 +25,19 @@ _complete_flush:
   mov gs, ax
   mov ss, ax
   ret
+
+
+; Loads IDT
+[global load_idt]
+[extern idtr]
+
+load_idt:
+  lidt [idtr]
+  ret
+
+
+; Ignore IRQ
+[global ignore_irq]
+
+ignore_irq:
+  iret
