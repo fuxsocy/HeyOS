@@ -2,16 +2,15 @@ import os
 import ycm_core
 
 flags = [
-  '-Wall',
-  '-Wextra',
-  '-Wno-long-long',
-  '-Wno-variadic-macros',
-  '-fexceptions',
-  '-ferror-limit=10000',
-  '-DNDEBUG',
-  '-std=c++1z',
-  '-xc++',
-  '-Iinclude'
+  '-std=c++11',
+  '-m32',
+  '-Iinclude',
+  '-fno-use-cxa-atexit',
+  '-nostdlib',
+  '-fno-builtin',
+  '-fno-rtti',
+  '-fno-exceptions',
+  '-Wno-write-strings'
 ]
 
 # Base directory of the project, parent directory of all source files
