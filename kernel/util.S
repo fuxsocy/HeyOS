@@ -1,5 +1,10 @@
 ; util.S
 
+; Segment selectors (currently hardcoded)
+KERN_CODE_SEGMENT equ 0x10
+KERN_DATA_SEGMENT equ 0x18
+
+
 section .text
   global load_gdt
   extern gdtr;
@@ -9,10 +14,10 @@ section .text
 ; need to be reloaded. The CS register must be loaded using a far jump.
 load_gdt:
   lgdt [gdtr]
-  jmp 0x08:_complete_flush
+  jmp KERN_CODE_SEGMENT:_complete_flush
  
 _complete_flush:
-  mov ax, 0x10
+  mov ax, KERN_DATA_SEGMENT
   mov ds, ax
   mov es, ax
   mov fs, ax
