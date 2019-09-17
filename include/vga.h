@@ -11,57 +11,57 @@
 namespace heyos {
 
 template <typename T>
-struct Pos {
-    Pos() : x(0), y(0) {}
-    Pos(T x, T y) : x(x), y(y) {}
-    T x, y;
+struct pos {
+  pos() : x(), y() {}
+  pos(T x, T y) : x(x), y(y) {}
+  T x, y;
 };
 
 
-class Vga {
-public:
-    Vga();
-    ~Vga();
+class vga {
+ public:
+  vga();
+  ~vga() = default;
 
-    enum Color {
-        BLACK,
-        BLUE,
-        GREEN,
-        CYAN,
-        RED,
-        MAGENTA,
-        BROWN,
-        LIGHT_GREY,
-        DARK_GREY,
-        LIGHT_BLUE,
-        LIGHT_GREEN,
-        LIGHT_CYAN,
-        LIGHT_RED,
-        LIGHT_MAGENTA,
-        LIGHT_BROWN,
-        WHITE
-    };
+  enum Color {
+    BLACK,
+    BLUE,
+    GREEN,
+    CYAN,
+    RED,
+    MAGENTA,
+    BROWN,
+    LIGHT_GREY,
+    DARK_GREY,
+    LIGHT_BLUE,
+    LIGHT_GREEN,
+    LIGHT_CYAN,
+    LIGHT_RED,
+    LIGHT_MAGENTA,
+    LIGHT_BROWN,
+    WHITE
+  };
 
-    void Clear();
-    void PutChar(char c);
-    void Put(char* s);
+  void clear();
+  void putc(char c);
+  void puts(char* s);
 
-    void CarriageReturn();
-    void Newline();
+  void cr();
+  void lf();
 
-    void set_cursor(uint8_t x, uint8_t y);
-    void set_color(Vga::Color bg, Vga::Color fg);
+  void set_cursor(uint8_t x, uint8_t y);
+  void set_color(vga::Color bg, vga::Color fg);
 
-private:
-    static bool IsCharPrintable(uint8_t ascii);
+ private:
+  static bool is_printable(uint8_t ascii);
 
-    static uint16_t* video_memory_;
+  static uint16_t* video_memory_;
 
-    Pos<uint8_t> cursor_;
-    uint8_t color_; // bg << 4 | fg
+  pos<uint8_t> cursor_;
+  uint8_t color_; // bg << 4 | fg
 
-    Port8Bit vga_command_port_;
-    Port8Bit vga_data_port_;
+  port8 vga_command_port_;
+  port8 vga_data_port_;
 };
 
 }  // namespace heyos

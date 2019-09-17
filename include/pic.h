@@ -8,10 +8,10 @@ namespace heyos {
 
 namespace pic {
 
-extern Port8BitSlow pic_master_command;
-extern Port8BitSlow pic_master_data;
-extern Port8BitSlow pic_slave_command;
-extern Port8BitSlow pic_slave_data;
+extern port8_slow pic_master_command;
+extern port8_slow pic_master_data;
+extern port8_slow pic_slave_command;
+extern port8_slow pic_slave_data;
 
 void init();
 

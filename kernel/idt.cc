@@ -8,7 +8,7 @@
 #define IDT_INTERRUPT_GATE_16 0x6
 #define X86_RING_MAX 3
 
-struct Idtr {
+struct idt_ptr {
   heyos::uint16_t size;
   heyos::uint32_t base;
 } __attribute__((packed)) idtr;
@@ -23,34 +23,34 @@ void handle_irq_0x01();
 
 namespace heyos {
 
-Idt::Idt(Gdt* gdt) {
+idt::idt(gdt* gdt) {
   uint16_t kernel_code_segment = gdt->kernel_code_segment_selector();
 
   for (size_t i = 0; i < IDT_ENTRIES_COUNT; i++) {
-    gates_[i] = GateDescriptor(&ignore_irq, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
+    gates_[i] = gate_descriptor(&ignore_irq, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
   }
 
-  gates_[0x20] = GateDescriptor(&handle_irq_0x00, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
-  gates_[0x21] = GateDescriptor(&handle_irq_0x01, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
+  gates_[0x20] = gate_descriptor(&handle_irq_0x00, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
+  gates_[0x21] = gate_descriptor(&handle_irq_0x01, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
 
   pic::init();
 
   // Load IDT into CPU
-  idtr.size = IDT_ENTRIES_COUNT * sizeof(GateDescriptor) - 1;
+  idtr.size = IDT_ENTRIES_COUNT * sizeof(gate_descriptor) - 1;
   idtr.base = (uint32_t) this;
   load_idt();
 }
 
-void Idt::activate() const {
+void idt::activate() const {
   __asm__ volatile("sti");
 }
 
-void Idt::deactivate() const {
+void idt::deactivate() const {
   __asm__ volatile("cli");
 }
 
 
-Idt::GateDescriptor::GateDescriptor(void (*isr)(), uint16_t segment_selector,
+idt::gate_descriptor::gate_descriptor(void (*isr)(), uint16_t segment_selector,
                                     uint8_t privilege_level, uint8_t gate_type) {
   base_lo_ = ((uint32_t) isr) & 0xffff;
   base_hi_ = (((uint32_t) isr) >> 16) & 0xffff;

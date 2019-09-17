@@ -8,10 +8,10 @@ namespace heyos {
 
 namespace pic {
 
-Port8BitSlow pic_master_command(0x20);
-Port8BitSlow pic_master_data(0x21);
-Port8BitSlow pic_slave_command(0xa0);
-Port8BitSlow pic_slave_data(0xa1);
+port8_slow pic_master_command(0x20);
+port8_slow pic_master_data(0x21);
+port8_slow pic_slave_command(0xa0);
+port8_slow pic_slave_data(0xa1);
 
 void init() {
   // ICW1 (edge triggered mode, cascading controllers, expect ICW4)
