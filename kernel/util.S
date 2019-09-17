@@ -34,10 +34,3 @@ _complete_flush:
 load_idt:
   lidt [idtr]
   ret
-
-
-; Ignore IRQ
-[global ignore_irq]
-
-ignore_irq:
-  iret

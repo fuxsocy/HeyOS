@@ -12,9 +12,12 @@ struct Idtr {
   heyos::uint32_t base;
 } idtr;
 
-// Declared in util.S
-extern "C" void load_idt(); // lidt [idtr]
-extern "C" void ignore_irq(); // iret
+extern "C" {
+void load_idt(); // util.S, lidt [idtr]
+void ignore_irq(); // interrupt.S, iret
+void handle_irq_0x00();
+void handle_irq_0x01();
+}
 
 
 namespace heyos {
@@ -26,8 +29,8 @@ Idt::Idt(Gdt* gdt) {
     gates_[i] = GateDescriptor(&ignore_irq, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
   }
 
-  gates_[0x20] = GateDescriptor(&ignore_irq, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
-  gates_[0x21] = GateDescriptor(&ignore_irq, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
+  gates_[0x20] = GateDescriptor(&handle_irq_0x00, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
+  gates_[0x21] = GateDescriptor(&handle_irq_0x01, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
 
   // Load IDT into CPU
   idtr.size = IDT_ENTRIES_COUNT * sizeof(GateDescriptor) - 1;
