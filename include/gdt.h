@@ -26,7 +26,7 @@ namespace heyos {
 class Gdt {
  public: 
   Gdt();
-  ~Gdt();
+  ~Gdt() = default;
 
   // A segment selector is an offset to GDT.
   // The size of GDT is 65536 (2^16) bytes in total.
