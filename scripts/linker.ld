@@ -15,10 +15,10 @@ SECTIONS{
   }
 
   .data ALIGN (0x1000) : {
-    start_ctors = .;
+    start_ctor = .;
     KEEP(*( .init_array ));
     KEEP(*(SORT_BY_INIT_PRIORITY( .init_array.* )));
-    end_ctors = .;
+    end_ctor = .;
 
     *(.data)
   }

@@ -1,6 +1,7 @@
 // Copyright (c) 2019 FunSociety
 #include <idt.h>
 #include <gdt.h>
+#include <pic.h>
 
 #define IDT_DESC_PRESENT 0x8
 #define IDT_INTERRUPT_GATE_32 0xe
@@ -31,6 +32,8 @@ Idt::Idt(Gdt* gdt) {
 
   gates_[0x20] = GateDescriptor(&handle_irq_0x00, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
   gates_[0x21] = GateDescriptor(&handle_irq_0x01, kernel_code_segment, 0, IDT_INTERRUPT_GATE_32);
+
+  pic::init();
 
   // Load IDT into CPU
   idtr.size = IDT_ENTRIES_COUNT * sizeof(GateDescriptor) - 1;
