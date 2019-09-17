@@ -6,49 +6,49 @@
 
 namespace heyos {
 
-class Port {
+class port {
  protected:
-  Port(uint16_t port_number) : port_number_(port_number) {}
-  ~Port() = default;
+  port(uint16_t port_number) : port_number_(port_number) {}
+  ~port() = default;
 
   virtual void wait() const;
   uint16_t port_number_;
 };
 
 
-class Port8Bit : public Port {
+class port8 : public port {
  public:
-  Port8Bit(uint16_t port_number) : Port(port_number) {}
-  ~Port8Bit() = default;
+  port8(uint16_t port_number) : port(port_number) {}
+  ~port8() = default;
 
   virtual void write(uint8_t data) const;
   virtual uint8_t read() const;
 };
 
 
-class Port8BitSlow : public Port8Bit {
+class port8_slow : public port8 {
  public:
-  Port8BitSlow(uint16_t port_number) : Port8Bit(port_number) {}
-  ~Port8BitSlow() = default;
+  port8_slow(uint16_t port_number) : port8(port_number) {}
+  ~port8_slow() = default;
 
   virtual void write(uint8_t data) const override;
 };
 
 
-class Port16Bit : public Port {
+class port16 : public port {
  public:
-  Port16Bit(uint16_t port_number) : Port(port_number) {}
-  ~Port16Bit() = default;
+  port16(uint16_t port_number) : port(port_number) {}
+  ~port16() = default;
 
   virtual void write(uint16_t data) const;
   virtual uint16_t read() const;
 };
 
 
-class Port32Bit : public Port {
+class port32 : public port {
  public:
-  Port32Bit(uint16_t port_number) : Port(port_number) {}
-  ~Port32Bit() = default;
+  port32(uint16_t port_number) : port(port_number) {}
+  ~port32() = default;
 
   virtual void write(uint32_t data) const;
   virtual uint32_t read() const;

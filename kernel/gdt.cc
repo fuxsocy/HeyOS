@@ -1,40 +1,39 @@
 // Copyright (c) 2019 FunSociety
 #include <gdt.h>
 
-struct Gdtr {
+struct gdt_ptr {
   heyos::uint16_t size;
   heyos::uint32_t base;
-} gdtr;
+} __attribute__((packed)) gdtr;
 
 extern "C" void load_gdt(); // declared in util.S
 
 
 namespace heyos {
 
-Gdt::Gdt()
+gdt::gdt()
     : null_segment_descriptor_(0, 0, 0),
       unused_segment_descriptor_(0, 0, 0),
-      kernel_code_segment_descriptor_(0, 0xfffff, 0x9a),
-      kernel_data_segment_descriptor_(0, 0xfffff, 0x92) {
-  gdtr.size = sizeof(Gdt) - 1;
+      kernel_code_segment_descriptor_(0, 64 * 1024 * 1024, 0x9a),
+      kernel_data_segment_descriptor_(0, 64 * 1024 * 1024, 0x92) {
+  gdtr.size = sizeof(gdt) - 1;
   gdtr.base = (uint32_t) this;
   load_gdt();
 }
 
-uint16_t Gdt::kernel_code_segment_selector() const {
+uint16_t gdt::kernel_code_segment_selector() const {
   return (uint32_t) &kernel_code_segment_descriptor_ - (uint32_t) this;
 }
 
-uint16_t Gdt::kernel_data_segment_selector() const {
+uint16_t gdt::kernel_data_segment_selector() const {
   return (uint32_t) &kernel_data_segment_descriptor_ - (uint32_t) this;
 }
 
 
-Gdt::SegmentDescriptor::SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t access) {
+gdt::segment_descriptor::segment_descriptor(uint32_t base, uint32_t limit, uint8_t access) {
   // Check the limit to make sure that it can be encoded.
   if ((limit > 65536) && ((limit & 0xfff) != 0xfff)) {
     // FIXME: perform error handling here.
-    return;
   }
 
   if (limit <= 65536) {

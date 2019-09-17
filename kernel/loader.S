@@ -34,11 +34,13 @@ stack_top:
 
 [section .text]
 
-[extern start_kernel]
 [global kernel_loader]
+[extern exec_global_obj_ctors]
+[extern start_kernel]
 
 kernel_loader:
   mov esp, stack_top               ; Point esp to the top of the stack
+  call exec_global_obj_ctors       ; Execute all global object ctors
   push ebx                         ; start_kernel()'s first param: multiboot structure
   call start_kernel                ; Continue executing our kernel in main.cpp
 

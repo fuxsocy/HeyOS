@@ -23,23 +23,23 @@
 namespace heyos {
 
 // Forward declaration of Gdt
-class Gdt;
+class gdt;
 
-class Idt {
+class idt {
  public:
-  Idt(Gdt* gdt);
-  ~Idt() = default;
+  idt(gdt* gdt);
+  ~idt() = default;
 
   void activate() const;
   void deactivate() const;
 
  private:
-  class GateDescriptor {
+  class gate_descriptor {
    public:
-    GateDescriptor() = default;
-    GateDescriptor(void (*isr)(), uint16_t segment_selector,
+    gate_descriptor() = default;
+    gate_descriptor(void (*isr)(), uint16_t segment_selector,
                    uint8_t privilege_level, uint8_t gate_type);
-    ~GateDescriptor() = default;
+    ~gate_descriptor() = default;
 
    private:
     uint16_t base_lo_;
@@ -50,7 +50,7 @@ class Idt {
     uint16_t base_hi_;
   } __attribute__((packed));
 
-  GateDescriptor gates_[IDT_ENTRIES_COUNT];
+  gate_descriptor gates_[IDT_ENTRIES_COUNT];
 };
 
 }  // namespace heyos
