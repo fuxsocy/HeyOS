@@ -4,7 +4,7 @@
 struct Gdtr {
   heyos::uint16_t size;
   heyos::uint32_t base;
-} gdtr;
+} __attribute__((packed)) gdtr;
 
 extern "C" void load_gdt(); // declared in util.S
 
@@ -14,8 +14,8 @@ namespace heyos {
 Gdt::Gdt()
     : null_segment_descriptor_(0, 0, 0),
       unused_segment_descriptor_(0, 0, 0),
-      kernel_code_segment_descriptor_(0, 0xfffff, 0x9a),
-      kernel_data_segment_descriptor_(0, 0xfffff, 0x92) {
+      kernel_code_segment_descriptor_(0, 64 * 1024 * 1024, 0x9a),
+      kernel_data_segment_descriptor_(0, 64 * 1024 * 1024, 0x92) {
   gdtr.size = sizeof(Gdt) - 1;
   gdtr.base = (uint32_t) this;
   load_gdt();
@@ -34,7 +34,6 @@ Gdt::SegmentDescriptor::SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t
   // Check the limit to make sure that it can be encoded.
   if ((limit > 65536) && ((limit & 0xfff) != 0xfff)) {
     // FIXME: perform error handling here.
-    return;
   }
 
   if (limit <= 65536) {

@@ -11,7 +11,7 @@
 struct Idtr {
   heyos::uint16_t size;
   heyos::uint32_t base;
-} idtr;
+} __attribute__((packed)) idtr;
 
 extern "C" {
 void load_idt(); // util.S, lidt [idtr]

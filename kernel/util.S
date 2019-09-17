@@ -36,15 +36,6 @@ __have_next_ctor:
 
 load_gdt:
   lgdt [gdtr]
-  jmp KERN_CODE_SEGMENT:__complete_flush
- 
-__complete_flush:
-  mov ax, KERN_DATA_SEGMENT
-  mov ds, ax
-  mov es, ax
-  mov fs, ax
-  mov gs, ax
-  mov ss, ax
   ret
 
 
